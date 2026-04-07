@@ -5,6 +5,12 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PostController::class, 'index'])->name('home');
+// My Posts - User এর নিজের সব posts
+Route::get('/my-posts', [PostController::class, 'myPosts'])->name('posts.my');
+// Create new post - এটা /posts/{post} এর আগে থাকতে হবে!
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+
 Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/dashboard', function () {

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -77,18 +78,18 @@ class Post extends Model
         parent::boot();
         // Auto-generate slug from title when creating a post
         static::creating(function ($post) {
-            $post->slug = static::generatingUniqueSlug($post->title);
+            $post->slug = static::generateUniqueSlug($post->title);
         });
         //Auto-update slug when title is updated 
         static::updating(function ($post) {
             if ($post->isDirty('title')) {
-                $post->slug = static::generatingUniqueSlug($post->title, $post->id);
+                $post->slug = static::generateUniqueSlug($post->title, $post->id);
             }
         });
     }
     protected static function generateUniqueSlug(string $title, ?int $excludeId = null): string
     {
-        $slug = static::generatingUniqueSlug($title);
+        $slug = Str::slug($title); // ✅ generate base slug
         $originalSlug = $slug;
         $count = 1;
 

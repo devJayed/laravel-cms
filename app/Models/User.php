@@ -79,6 +79,16 @@ class User extends Authenticatable
     {
         return $this->role === 'author';
     }
+
+    /**
+     * Is the user an Editor or a higher role?
+     * Both Editors and Admins can approve posts
+     */
+    public function canManagePosts(): bool
+    {
+        return $this->isEditor() || $this->isAdmin();
+    }
+
     /**
      * Editor and Admin both can approve posts, but only Admin can manage user roles.
      */
